@@ -26,4 +26,6 @@ public interface AccountDao extends CrudRepository<Account, Long> {
 
 	List<Account> findByAccountType(AccountType type);
 
+	Account findByMobileAndPasswordAndAccountStatus(String mobile, String password, int status);
+
 }

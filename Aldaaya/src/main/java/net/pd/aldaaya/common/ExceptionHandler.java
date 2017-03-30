@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-class EthraaExceptionHandlerAdvice {
+class AldaayaExceptionHandlerAdvice {
 
-    private static Logger logger = LoggerFactory.getLogger(EthraaExceptionHandlerAdvice.class);
+    private static Logger logger = LoggerFactory.getLogger(AldaayaExceptionHandlerAdvice.class);
 
     @ExceptionHandler(Exception.class)
     @ResponseBody

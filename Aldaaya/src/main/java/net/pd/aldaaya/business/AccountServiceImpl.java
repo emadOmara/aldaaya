@@ -119,4 +119,16 @@ public class AccountServiceImpl implements AccountService {
 			throw new AldaayaException(e);
 		}
 	}
+
+	@Override
+	public Account find(String mobile, String password, int status) throws AldaayaException {
+		Account acc = null;
+		try {
+			acc = accountDao.findByMobileAndPasswordAndAccountStatus(mobile, password, status);
+			return acc;
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+
+	}
 }

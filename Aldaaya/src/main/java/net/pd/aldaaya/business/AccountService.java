@@ -21,4 +21,6 @@ public interface AccountService {
 
 	Long countPendingUsers() throws AldaayaException;
 
+	Account find(String mobile, String password, int active) throws AldaayaException;
+
 }
