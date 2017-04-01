@@ -11,12 +11,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * Lesson entity
- *
- * @author Emad
- *
- */
 @Entity
 public class Lesson extends BaseEntity {
 
@@ -31,9 +25,10 @@ public class Lesson extends BaseEntity {
 	private String description;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lesson")
-	private List<Chapter> chapters;
-	@ManyToOne
 	@JsonIgnore
+	private List<Chapter> chapters;
+
+	@ManyToOne
 	private Section section;
 
 	public String getName() {

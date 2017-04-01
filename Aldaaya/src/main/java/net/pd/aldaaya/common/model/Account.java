@@ -14,12 +14,8 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-/**
- * Account entity
- *
- * @author Emad
- *
- */
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ACCOUNT", uniqueConstraints = @UniqueConstraint(columnNames = { "mobile", "email" }) )
 public class Account extends BaseEntity {
@@ -42,6 +38,7 @@ public class Account extends BaseEntity {
 	private String password;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+	@JsonIgnore
 	private List<Section> sections;
 
 	@Enumerated(EnumType.STRING)

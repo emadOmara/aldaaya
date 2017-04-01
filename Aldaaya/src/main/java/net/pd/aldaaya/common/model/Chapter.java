@@ -6,12 +6,6 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-/**
- * Section entity
- *
- * @author Emad
- *
- */
 @Entity
 public class Chapter extends BaseEntity {
 
@@ -29,7 +23,6 @@ public class Chapter extends BaseEntity {
 	@Lob
 	private String image;
 	@ManyToOne
-	// @JsonIgnore
 	private Lesson lesson;
 
 	public String getName() {
