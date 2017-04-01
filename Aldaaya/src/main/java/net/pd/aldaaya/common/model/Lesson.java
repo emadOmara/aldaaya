@@ -9,6 +9,8 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Lesson entity
  *
@@ -31,6 +33,7 @@ public class Lesson extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lesson")
 	private List<Chapter> chapters;
 	@ManyToOne
+	@JsonIgnore
 	private Section section;
 
 	public String getName() {

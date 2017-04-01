@@ -42,7 +42,7 @@ public class ChapterServiceImpl implements ChapterService {
 	@Override
 	public List<Chapter> getLessonChapters(Long id) throws AldaayaException {
 		try {
-			return (List<Chapter>) chapterDao.findByLessonId();
+			return (List<Chapter>) chapterDao.findByLessonId(id);
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}

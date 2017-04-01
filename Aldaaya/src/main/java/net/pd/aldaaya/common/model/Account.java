@@ -14,10 +14,6 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
-import net.pd.aldaaya.integration.jackson.Views;
-
 /**
  * Account entity
  *
@@ -35,7 +31,6 @@ public class Account extends BaseEntity {
 	private static final long serialVersionUID = 5105914722614237201L;
 
 	@NotEmpty
-	@JsonView(Views.Public.class)
 	private String userName;
 	@NotEmpty
 	@Column(unique = true)
@@ -52,7 +47,6 @@ public class Account extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private AccountType accountType;
 
-	@JsonView(Views.Public.class)
 	private Integer accountStatus;
 
 	public String getMobile() {

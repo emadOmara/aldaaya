@@ -1,9 +1,12 @@
 package net.pd.aldaaya.common.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Section entity
@@ -25,7 +28,10 @@ public class Chapter extends BaseEntity {
 
 	private String description;
 
+	@Lob
+	private String image;
 	@ManyToOne
+	@JsonIgnore
 	private Lesson lesson;
 
 	public String getName() {
@@ -50,6 +56,14 @@ public class Chapter extends BaseEntity {
 
 	public void setLesson(Lesson lesson) {
 		this.lesson = lesson;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 }

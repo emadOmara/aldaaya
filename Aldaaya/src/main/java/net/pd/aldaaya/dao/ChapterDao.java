@@ -10,6 +10,6 @@ import net.pd.aldaaya.common.model.Chapter;
 @Repository
 public interface ChapterDao extends CrudRepository<Chapter, Long> {
 
-	List<Chapter> findByLessonId();
+	List<Chapter> findByLessonId(Long id);
 
 }

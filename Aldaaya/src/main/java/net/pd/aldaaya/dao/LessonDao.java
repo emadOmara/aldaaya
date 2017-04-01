@@ -10,6 +10,6 @@ import net.pd.aldaaya.common.model.Lesson;
 @Repository
 public interface LessonDao extends CrudRepository<Lesson, Long> {
 
-	List<Lesson> findBySectionId();
+	List<Lesson> findBySectionId(Long id);
 
 }

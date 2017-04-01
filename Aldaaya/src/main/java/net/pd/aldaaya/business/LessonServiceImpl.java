@@ -53,7 +53,7 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public List<Lesson> getSectionLessons(Long id) throws AldaayaException {
 		try {
-			return (List<Lesson>) lessonDao.findBySectionId();
+			return (List<Lesson>) lessonDao.findBySectionId(id);
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}
