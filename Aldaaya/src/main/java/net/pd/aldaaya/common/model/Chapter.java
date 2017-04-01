@@ -6,8 +6,6 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  * Section entity
  *
@@ -31,7 +29,7 @@ public class Chapter extends BaseEntity {
 	@Lob
 	private String image;
 	@ManyToOne
-	@JsonIgnore
+	// @JsonIgnore
 	private Lesson lesson;
 
 	public String getName() {
