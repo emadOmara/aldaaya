@@ -16,12 +16,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * Account entity
- *
- * @author Emad
- *
- */
 @Entity
 @Table(name = "ACCOUNT", uniqueConstraints = @UniqueConstraint(columnNames = { "mobile", "email" }) )
 public class Account extends BaseEntity {
