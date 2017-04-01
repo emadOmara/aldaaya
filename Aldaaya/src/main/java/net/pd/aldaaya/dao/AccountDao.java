@@ -21,11 +21,11 @@ public interface AccountDao extends CrudRepository<Account, Long> {
 
 	Account findByMobile(String mobile);
 
-	@Query("select count (acc) from Account acc where acc.accountStatus != 1")
-	Long countPending();
+ 
 
 	List<Account> findByAccountType(AccountType type);
 
-	Account findByMobileAndPasswordAndAccountStatus(String mobile, String password, int status);
+
+	Account findByMobileAndPassword(String mobile, String password);
 
 }

@@ -13,14 +13,10 @@ public interface AccountService {
 
 	void deleteAccount(Long id) throws AldaayaException;
 
-	Account find(Long id);
+	Account find(Long id) throws AldaayaException;
 
 	void activateAccount(Account account) throws AldaayaException;
 
-	void forgetPassword(Account account) throws AldaayaException;
-
-	Long countPendingUsers() throws AldaayaException;
-
-	Account find(String mobile, String password, int active) throws AldaayaException;
+	Account login(String mobile, String password) throws AldaayaException;
 
 }

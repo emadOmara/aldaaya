@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Account account = null;
 
 		try {
-			account = accountService.find(mobile, password, AldaayaConstants.ACTIVE);
+			account = accountService.login(mobile, password);
 		} catch (AldaayaException e) {
 			e.printStackTrace();
 		}

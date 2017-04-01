@@ -58,7 +58,6 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	@CacheEvict(cacheNames = "accounts")
 	public void deleteAccount(Long id) throws AldaayaException {
 		try {
 
@@ -83,48 +82,27 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account find(Long id) {
-		return accountDao.findOne(id);
-
-	}
-
-	@Override
-	public void forgetPassword(Account account) throws AldaayaException {
+	public Account find(Long id) throws AldaayaException {
+		
 		try {
 
-			Account fetchedAccount = accountDao.findByMobile(account.getMobile());
-			if (fetchedAccount == null) {
-				throw new AldaayaException("No account defined for this mobile number");
-			}
-
-			String generatePassword = CommonUtil.generatePassword(AldaayaConstants.RANDOM_PASSWORD_LENGTH);
-
-			fetchedAccount.setPassword(generatePassword);
-			accountDao.save(fetchedAccount);
-
+			return accountDao.findOne(id);
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}
 
 	}
+ 
 
 	@Override
-	public Long countPendingUsers() throws AldaayaException {
-		try {
-
-			Long count = accountDao.countPending();
-			return count;
-
-		} catch (Exception e) {
-			throw new AldaayaException(e);
-		}
-	}
-
-	@Override
-	public Account find(String mobile, String password, int status) throws AldaayaException {
+	public Account login(String mobile, String password) throws AldaayaException {
 		Account acc = null;
 		try {
-			acc = accountDao.findByMobileAndPasswordAndAccountStatus(mobile, password, status);
+			acc = accountDao.findByMobileAndPassword(mobile, password);
+			if(acc.getAccountStatus().equals(AldaayaConstants.INACTIVE)){
+				throw new AldaayaException("User status is inactive");
+			}
+			
 			return acc;
 		} catch (Exception e) {
 			throw new AldaayaException(e);

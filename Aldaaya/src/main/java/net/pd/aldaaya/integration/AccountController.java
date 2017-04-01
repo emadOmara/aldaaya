@@ -3,14 +3,11 @@ package net.pd.aldaaya.integration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.TransactionSystemException;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +27,6 @@ import net.pd.aldaaya.integration.response.LoginResponse;
 @RestController()
 @RequestMapping(path = "api/account")
 public class AccountController extends BaseController {
-
-	Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 	@Autowired
 	private AccountService accountService;
@@ -64,9 +59,16 @@ public class AccountController extends BaseController {
 
 		String credentials = account.getMobile() + "-" + account.getPassword();
 		userDetails = userDetailsService.loadUserByUsername(credentials);
+		Account fetchedAccount = null;
+		try {
+			fetchedAccount = accountService.login(account.getMobile(), userDetails.getPassword());
+		} catch (AldaayaException ex) {
+			BaseResponse res = new BaseResponse();
+			res.setStatus(2);
+			res.setComment(ex.getMessage());
+			return res;
+		}
 
-		Account fetchedAccount = accountService.find(account.getMobile(), userDetails.getPassword(),
-				AldaayaConstants.ACTIVE);
 		String token = CommonUtil.generateToken(account);
 		tokenManagementService.addUser(token, userDetails);
 
@@ -75,6 +77,51 @@ public class AccountController extends BaseController {
 		response.setResult(fetchedAccount);
 
 		return response;
+	}
+
+	@RequestMapping(path = "/add", method = RequestMethod.POST)
+	public BaseResponse add(@RequestBody Account account) throws AldaayaException {
+		BaseResponse response = new BaseResponse();
+		try {
+			account = accountService.saveAccount(account);
+
+			handleSuccessResponse(response, null);
+		} catch (Exception e) {
+			if (e instanceof TransactionSystemException) {
+				response.setStatus(2);
+				response.setComment(((TransactionSystemException) e).getApplicationException().getMessage());
+			} else {
+				response.setStatus(AldaayaConstants.ERROR);
+				response.setComment(e.getMessage());
+			}
+
+		}
+		return response;
+
+	}
+
+	@RequestMapping(path = "/edit", method = RequestMethod.POST)
+	public BaseResponse edit(@RequestBody Account account) throws AldaayaException {
+		BaseResponse response = new BaseResponse();
+		try {
+			if (account.isNew()) {
+				throw new AldaayaException(AldaayaConstants.ERROR_MSG_ID_CAN_T_BE_NULL);
+			}
+			account = accountService.saveAccount(account);
+
+			handleSuccessResponse(response, null);
+		} catch (Exception e) {
+			if (e instanceof TransactionSystemException) {
+				response.setStatus(2);
+				response.setComment(((TransactionSystemException) e).getApplicationException().getMessage());
+			} else {
+				response.setStatus(AldaayaConstants.ERROR);
+				response.setComment(e.getMessage());
+			}
+
+		}
+		return response;
+
 	}
 
 	@RequestMapping(path = "/register", method = RequestMethod.POST)
@@ -135,22 +182,6 @@ public class AccountController extends BaseController {
 
 		return response;
 
-	}
-
-	/**
-	 * count Pending users
-	 *
-	 * @return
-	 * @throws AldaayaException
-	 */
-	@GetMapping(path = "/countPending")
-	public BaseResponse countPendingUsers() throws AldaayaException {
-
-		BaseResponse response = new BaseResponse();
-		Long count = accountService.countPendingUsers();
-		handleSuccessResponse(response, count);
-
-		return response;
 	}
 
 }

@@ -1,5 +1,5 @@
 package net.pd.aldaaya.common.model;
 
 public enum AccountType {
-    NORMAL, ADMIN
+	NORMAL, ADMIN, SUPER
 }
