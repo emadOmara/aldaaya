@@ -29,7 +29,6 @@ public class Chapter extends BaseEntity {
 	@Lob
 	private String image;
 	@ManyToOne
-	// @JsonIgnore
 	private Lesson lesson;
 
 	public String getName() {

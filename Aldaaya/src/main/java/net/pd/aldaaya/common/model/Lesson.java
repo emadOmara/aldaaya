@@ -31,9 +31,10 @@ public class Lesson extends BaseEntity {
 	private String description;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lesson")
-	private List<Chapter> chapters;
-	@ManyToOne
 	@JsonIgnore
+	private List<Chapter> chapters;
+
+	@ManyToOne
 	private Section section;
 
 	public String getName() {
