@@ -11,12 +11,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * Lesson entity
- *
- * @author Emad
- *
- */
 @Entity
 public class Lesson extends BaseEntity {
 

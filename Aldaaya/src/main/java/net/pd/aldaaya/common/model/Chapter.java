@@ -6,12 +6,6 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-/**
- * Section entity
- *
- * @author Emad
- *
- */
 @Entity
 public class Chapter extends BaseEntity {
 
