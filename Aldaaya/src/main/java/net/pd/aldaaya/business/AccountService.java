@@ -17,6 +17,10 @@ public interface AccountService {
 
 	void activateAccount(Account account) throws AldaayaException;
 
+	void forgetPassword(Account account) throws AldaayaException;
+
 	Account login(String mobile, String password) throws AldaayaException;
+
+	List<Account> findByUserName(String name) throws AldaayaException;
 
 }

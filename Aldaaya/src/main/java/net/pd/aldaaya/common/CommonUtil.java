@@ -8,6 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import net.pd.aldaaya.common.model.Account;
+import net.pd.aldaaya.common.model.Email;
 
 public class CommonUtil {
 
@@ -17,6 +18,15 @@ public class CommonUtil {
 		String token = DigestUtils.sha256Hex(key);
 		return token;
 
+	}
+
+	public static Email createEmail(String recipient, String subject, String body) {
+
+		Email email = new Email();
+		email.setSubject(subject);
+		email.setTo(recipient);
+		email.setBody(body);
+		return email;
 	}
 
 	public static String generatePassword(int length) {

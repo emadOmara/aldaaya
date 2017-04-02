@@ -20,4 +20,6 @@ public interface AldaayaConstants {
 	// public String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public int RANDOM_PASSWORD_LENGTH = 6;
 
+	String EMAIL_SUBJECT_FORGET_PASSWORD = "نسيان كلمة المرور";
+	String EMAIL_BODY_FORGET_PASSWORD = "تم اعادة تعيين لكلمة المرور الخاصة بكم لتصبح : ";
 }

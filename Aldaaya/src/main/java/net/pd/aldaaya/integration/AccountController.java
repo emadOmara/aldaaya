@@ -79,6 +79,21 @@ public class AccountController extends BaseController {
 		return response;
 	}
 
+	@RequestMapping(path = "/forgetPassword", method = RequestMethod.POST)
+	public BaseResponse forgetPassword(@RequestBody Account account) throws AldaayaException {
+
+		BaseResponse response = new BaseResponse();
+		if (account.getMobile() == null) {
+			throw new AldaayaException(AldaayaConstants.ERROR_MSG_MOBILE_CAN_T_BE_NULL);
+		}
+
+		accountService.forgetPassword(account);
+		handleSuccessResponse(response, null);
+
+		return response;
+
+	}
+
 	@RequestMapping(path = "/add", method = RequestMethod.POST)
 	public BaseResponse add(@RequestBody Account account) throws AldaayaException {
 		BaseResponse response = new BaseResponse();
@@ -173,11 +188,35 @@ public class AccountController extends BaseController {
 	}
 
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
-	public BaseResponse searchUsers() throws AldaayaException {
+	public BaseResponse list() throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
 
 		List<Account> accounts = accountService.getAllAccounts();
+		handleSuccessResponse(response, accounts);
+
+		return response;
+
+	}
+
+	@RequestMapping(path = "/search/{name}", method = RequestMethod.GET)
+	public BaseResponse searchUsers(@PathVariable("name") String name) throws AldaayaException {
+
+		BaseResponse response = new BaseResponse();
+
+		List<Account> accounts = accountService.findByUserName(name);
+		handleSuccessResponse(response, accounts);
+
+		return response;
+
+	}
+
+	@RequestMapping(path = "/search", method = RequestMethod.GET)
+	public BaseResponse searchUsers() throws AldaayaException {
+
+		BaseResponse response = new BaseResponse();
+
+		List<Account> accounts = accountService.findByUserName(null);
 		handleSuccessResponse(response, accounts);
 
 		return response;

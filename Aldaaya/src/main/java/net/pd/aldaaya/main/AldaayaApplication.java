@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -24,6 +25,7 @@ import net.pd.aldaaya.common.AldaayaConstants;
 @EnableJpaRepositories(basePackages = { "net.pd.aldaaya.dao" })
 @EntityScan(basePackages = "net.pd.aldaaya.common.model")
 @EnableTransactionManagement
+@EnableAsync
 public class AldaayaApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

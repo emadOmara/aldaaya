@@ -2,7 +2,6 @@ package net.pd.aldaaya.dao;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,11 +20,12 @@ public interface AccountDao extends CrudRepository<Account, Long> {
 
 	Account findByMobile(String mobile);
 
- 
-
 	List<Account> findByAccountType(AccountType type);
 
-
 	Account findByMobileAndPassword(String mobile, String password);
+
+	List<Account> findByAccountStatus(int i);
+
+	List<Account> findByUserNameContainingIgnoreCaseAndAccountStatus(String userName, int i);
 
 }
