@@ -20,6 +20,9 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private MessageDao messageDao;
 
+	/**
+	 * send user message to admin
+	 */
 	@Override
 	public void sendUserMessage(Message msg) throws AldaayaException {
 		try {
