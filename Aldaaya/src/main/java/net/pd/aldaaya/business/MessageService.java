@@ -4,12 +4,13 @@ import java.util.List;
 
 import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.model.Message;
+import net.pd.aldaaya.integration.request.MessageRequest;
 
 public interface MessageService {
 
 	void sendUserMessage(Message msg) throws AldaayaException;
 
-	void sendAdminMessage(Message msg) throws AldaayaException;
+	void sendAdminMessage(MessageRequest msg) throws AldaayaException;
 
 	List<Message> getUserInbox(Long id) throws AldaayaException;
 

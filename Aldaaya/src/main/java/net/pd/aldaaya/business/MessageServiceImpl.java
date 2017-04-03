@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.pd.aldaaya.common.AldaayaException;
+import net.pd.aldaaya.common.CommonUtil;
+import net.pd.aldaaya.common.model.Account;
 import net.pd.aldaaya.common.model.Message;
 import net.pd.aldaaya.dao.MessageDao;
+import net.pd.aldaaya.integration.request.MessageRequest;
 
 @Service
 @Transactional
@@ -26,6 +29,7 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public void sendUserMessage(Message msg) throws AldaayaException {
 		try {
+			msg.setToAdmin(true);
 			msg.setNewAdminMessage(true);
 			messageDao.save(msg);
 		} catch (Exception e) {
@@ -35,13 +39,47 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void sendAdminMessage(Message msg) throws AldaayaException {
+	public void sendAdminMessage(MessageRequest request) throws AldaayaException {
 		try {
-			msg.setNewUserMessage(true);
-			messageDao.save(msg);
+
+			List<Long> userIds = request.getUsers();
+
+			if (CommonUtil.isEmpty(userIds)) {
+				throw new AldaayaException("Please specify target");
+			}
+
+			addUserMessages(request);
+
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}
+	}
+
+	private void addUserMessages(MessageRequest request) {
+
+		List<Long> userIds = request.getUsers();
+
+		if (CommonUtil.isEmpty(userIds)) {
+			return;
+		}
+
+		for (Long userId : userIds) {
+			Message message = new Message();
+			message.setMsg(request.getMsg());
+
+			Account sender = new Account();
+			sender.setId(request.getSender());
+			message.setSender(sender);
+
+			Account receiver = new Account();
+			receiver.setId(userId);
+			message.setReceiver(receiver);
+
+			message.setNewUserMessage(true);
+			messageDao.save(message);
+
+		}
+
 	}
 
 	@Override
