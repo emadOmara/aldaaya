@@ -11,10 +11,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import net.pd.aldaaya.integration.jackson.Views;
 
 @Entity
 @Table(name = "ACCOUNT", uniqueConstraints = @UniqueConstraint(columnNames = { "mobile", "email" }) )
@@ -27,12 +30,15 @@ public class Account extends BaseEntity {
 	private static final long serialVersionUID = 5105914722614237201L;
 
 	@NotEmpty
+	@JsonView(Views.Public.class)
 	private String userName;
 	@NotEmpty
 	@Column(unique = true)
+	@JsonView(Views.Details.class)
 	private String mobile;
 	@Email
 	@Column(unique = true)
+	@JsonView(Views.Details.class)
 	private String email;
 	@NotEmpty
 	private String password;
@@ -41,9 +47,11 @@ public class Account extends BaseEntity {
 	@JsonIgnore
 	private List<Section> sections;
 
+	@JsonView(Views.Details.class)
 	@Enumerated(EnumType.STRING)
 	private AccountType accountType;
 
+	@JsonView(Views.Details.class)
 	private Integer accountStatus;
 
 	public String getMobile() {

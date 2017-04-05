@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import net.pd.aldaaya.business.MessageService;
 import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.model.Account;
 import net.pd.aldaaya.common.model.Message;
+import net.pd.aldaaya.integration.jackson.Views;
 import net.pd.aldaaya.integration.request.MessageRequest;
 import net.pd.aldaaya.integration.response.BaseResponse;
 
@@ -66,6 +68,7 @@ public class MessageController extends BaseController {
 	}
 
 	@GetMapping(path = "/user/inbox/{id}")
+	@JsonView(Views.Public.class)
 	public BaseResponse getUserInbox(@PathVariable("id") Long id) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
@@ -79,6 +82,7 @@ public class MessageController extends BaseController {
 	}
 
 	@GetMapping(path = "/outbox/{id}")
+	@JsonView(Views.Public.class)
 	public BaseResponse getUserOutbox(@PathVariable("id") Long id) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
@@ -92,6 +96,7 @@ public class MessageController extends BaseController {
 	}
 
 	@GetMapping(path = "/admin/inbox")
+	@JsonView(Views.Public.class)
 	public BaseResponse getAdminInbox() throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
@@ -105,6 +110,7 @@ public class MessageController extends BaseController {
 	}
 
 	@GetMapping(path = "/user/get/{messageID}")
+	@JsonView(Views.Public.class)
 	public BaseResponse readUserMessage(@PathVariable("messageID") Long messageID) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
@@ -118,6 +124,7 @@ public class MessageController extends BaseController {
 	}
 
 	@GetMapping(path = "/admin/get/{messageID}")
+	@JsonView(Views.Public.class)
 	public BaseResponse readAdminMessage(@PathVariable("messageID") Long messageID) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();

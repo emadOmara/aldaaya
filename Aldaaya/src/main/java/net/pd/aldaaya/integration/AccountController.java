@@ -3,6 +3,7 @@ package net.pd.aldaaya.integration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,7 @@ import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.CommonUtil;
 import net.pd.aldaaya.common.model.Account;
 import net.pd.aldaaya.common.model.AccountType;
+import net.pd.aldaaya.integration.jackson.Views;
 import net.pd.aldaaya.integration.response.BaseResponse;
 import net.pd.aldaaya.integration.response.LoginResponse;
 
@@ -36,6 +38,7 @@ public class AccountController extends BaseController {
 	private TokenManagementService tokenManagementService;
 
 	@RequestMapping(path = "/get/{id}", method = RequestMethod.GET)
+	@JsonView(Views.Details.class)
 	public BaseResponse get(@PathVariable("id") Long id) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
@@ -95,6 +98,7 @@ public class AccountController extends BaseController {
 	}
 
 	@RequestMapping(path = "/add", method = RequestMethod.POST)
+	@JsonView(Views.Details.class)
 	public BaseResponse add(@RequestBody Account account) throws AldaayaException {
 		BaseResponse response = new BaseResponse();
 		try {
@@ -188,6 +192,7 @@ public class AccountController extends BaseController {
 	}
 
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
+	@JsonView(Views.Public.class)
 	public BaseResponse list() throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
@@ -200,6 +205,7 @@ public class AccountController extends BaseController {
 	}
 
 	@RequestMapping(path = "/search/{name}", method = RequestMethod.GET)
+	@JsonView(Views.Public.class)
 	public BaseResponse searchUsers(@PathVariable("name") String name) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
@@ -212,6 +218,7 @@ public class AccountController extends BaseController {
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.GET)
+	@JsonView(Views.Public.class)
 	public BaseResponse searchUsers() throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();

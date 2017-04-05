@@ -9,6 +9,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.map.annotate.JsonView;
+
+import net.pd.aldaaya.integration.jackson.Views;
+
 /*****
  * Message Entity******
  *
@@ -25,20 +29,26 @@ public class Message extends BaseEntity {
 	private static final long serialVersionUID = 5105914722614237201L;
 
 	@Lob
+	@JsonView(Views.Public.class)
 	protected String msg;
 
 	@ManyToOne
 	protected Account sender;
 	@ManyToOne
+	@JsonView(Views.Public.class)
 	protected Account receiver;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonView(Views.Public.class)
 	private Date creationDate = new Date();
 
+	@JsonView(Views.Public.class)
 	private boolean toAdmin = false;
 
+	@JsonView(Views.Public.class)
 	private boolean newAdminMessage = false;
 
+	@JsonView(Views.Public.class)
 	private boolean newUserMessage = false;
 
 	public Account getSender() {
