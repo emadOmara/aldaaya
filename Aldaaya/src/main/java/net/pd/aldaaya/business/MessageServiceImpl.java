@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.CommonUtil;
 import net.pd.aldaaya.common.model.Account;
+import net.pd.aldaaya.common.model.ContactUs;
 import net.pd.aldaaya.common.model.Message;
+import net.pd.aldaaya.dao.ContactUsDao;
 import net.pd.aldaaya.dao.MessageDao;
 import net.pd.aldaaya.integration.request.MessageRequest;
 
@@ -22,6 +24,8 @@ public class MessageServiceImpl implements MessageService {
 	Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 	@Autowired
 	private MessageDao messageDao;
+	@Autowired
+	private ContactUsDao contactUsDao;
 
 	/**
 	 * send user message to admin
@@ -146,4 +150,36 @@ public class MessageServiceImpl implements MessageService {
 		}
 	}
 
+	@Override
+	public ContactUs addContactUsMsg(ContactUs request) throws AldaayaException {
+		try {
+
+			  request = contactUsDao.save(request);
+			return request;
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+		
+	}
+	@Override
+	public List<ContactUs> getContactUsMessages() throws AldaayaException {
+		try {
+
+			   return (List<ContactUs>) contactUsDao.findAll();
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+	}
+	@Override
+	public ContactUs readContactUsMessage(Long id) throws AldaayaException {
+		try {
+
+			       ContactUs msg = contactUsDao.findOne(id);
+			       msg.setNewMessage(false);
+			       contactUsDao.save(msg);
+			       return msg;
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+	}
 }

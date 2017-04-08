@@ -12,6 +12,7 @@ import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.CommonUtil;
 import net.pd.aldaaya.common.NullAwareBeanUtilsBean;
 import net.pd.aldaaya.common.model.Account;
+import net.pd.aldaaya.common.model.AccountType;
 import net.pd.aldaaya.common.model.Email;
 import net.pd.aldaaya.dao.AccountDao;
 
@@ -47,6 +48,16 @@ public class AccountServiceImpl implements AccountService {
 
 	}
 
+	@Override
+	public List<Account> findByUserName(String userName,AccountType type,Integer accountStatus) {
+
+		if (StringUtils.isEmpty(userName)) {
+			return accountDao.findByAccountTypeAndAccountStatus(type,accountStatus);
+		}
+
+		return accountDao.findByUserNameContainingIgnoreCaseAndAccountStatusAndAccountType(userName, 1,type);
+	}
+	
 	@Override
 	public List<Account> findByUserName(String userName) {
 
@@ -113,9 +124,9 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<Account> getAllAccounts() throws AldaayaException {
+	public List<Account> getAccounts(AccountType type) throws AldaayaException {
 		try {
-			return (List<Account>) accountDao.findAll();
+			return (List<Account>) accountDao.findByAccountType(type);
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}

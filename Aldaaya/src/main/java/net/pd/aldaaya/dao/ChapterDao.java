@@ -12,4 +12,7 @@ public interface ChapterDao extends CrudRepository<Chapter, Long> {
 
 	List<Chapter> findByLessonId(Long id);
 
+	List<Chapter> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String queryString,
+			String queryString2);
+
 }

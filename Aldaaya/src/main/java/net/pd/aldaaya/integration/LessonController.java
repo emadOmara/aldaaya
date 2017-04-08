@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.pd.aldaaya.business.LessonService;
+import net.pd.aldaaya.business.SectionService;
 import net.pd.aldaaya.common.AldaayaConstants;
 import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.model.Lesson;
+import net.pd.aldaaya.common.model.Section;
 import net.pd.aldaaya.integration.response.BaseResponse;
+import net.pd.aldaaya.integration.response.LessonResponse;
 
 @RestController()
 @RequestMapping(path = "api/lesson")
@@ -21,16 +24,21 @@ public class LessonController extends BaseController {
 
 	@Autowired
 	private LessonService lessonService;
+	@Autowired
+	private SectionService sectionService;
 
 	@RequestMapping(path = "/get/{id}", method = RequestMethod.GET)
 	public BaseResponse get(@PathVariable("id") Long id) throws AldaayaException {
 
-		BaseResponse response = new BaseResponse();
+		LessonResponse response = new LessonResponse();
 		handleNullID(id);
 
 		Lesson lesson = lessonService.find(id);
 		handleSuccessResponse(response, lesson);
-
+  
+		Section fetchedSection = sectionService.find(id);
+		response.setSection(fetchedSection);
+		 
 		return response;
 
 	}
@@ -81,11 +89,14 @@ public class LessonController extends BaseController {
 	public BaseResponse listSectionLessons(@PathVariable("id") Long id) throws AldaayaException {
 
 		handleNullID(id);
-		BaseResponse response = new BaseResponse();
+		LessonResponse response = new LessonResponse();
 
 		List<Lesson> lessons = lessonService.getSectionLessons(id);
-		handleSuccessResponse(response, lessons);
-
+		
+		Section fetchedSection = sectionService.find(id);
+		 response.setSection(fetchedSection);
+		
+		 handleSuccessResponse(response, lessons);
 		return response;
 
 	}

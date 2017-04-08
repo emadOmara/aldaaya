@@ -24,6 +24,8 @@ public class Section extends BaseEntity {
 	private String name;
 
 	private String description;
+	
+	private boolean regonly;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "section")
 	@JsonIgnore
@@ -64,4 +66,13 @@ public class Section extends BaseEntity {
 		this.account = account;
 	}
 
+	public boolean isRegonly() {
+		return regonly;
+	}
+
+	public void setRegonly(boolean regonly) {
+		this.regonly = regonly;
+	}
+
+	
 }

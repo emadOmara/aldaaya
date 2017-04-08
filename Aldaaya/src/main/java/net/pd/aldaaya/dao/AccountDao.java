@@ -28,4 +28,8 @@ public interface AccountDao extends CrudRepository<Account, Long> {
 
 	List<Account> findByUserNameContainingIgnoreCaseAndAccountStatus(String userName, int i);
 
+	List<Account> findByUserNameContainingIgnoreCaseAndAccountStatusAndAccountType(String userName, int i,
+			AccountType type);
+
+
 }

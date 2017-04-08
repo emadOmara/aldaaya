@@ -15,4 +15,6 @@ public interface ChapterService {
 
 	List<Chapter> getLessonChapters(Long id) throws AldaayaException;
 
+	List<Chapter> search(String queryString)throws AldaayaException;
+
 }

@@ -61,13 +61,19 @@ public class AccountController extends BaseController {
 		}
 
 		String credentials = account.getMobile() + "-" + account.getPassword();
-		userDetails = userDetailsService.loadUserByUsername(credentials);
 		Account fetchedAccount = null;
 		try {
+			userDetails = userDetailsService.loadUserByUsername(credentials);
 			fetchedAccount = accountService.login(account.getMobile(), userDetails.getPassword());
-		} catch (AldaayaException ex) {
+		} catch(UsernameNotFoundException ex){
 			BaseResponse res = new BaseResponse();
 			res.setStatus(2);
+			res.setComment(ex.getMessage());
+			return res;
+		}
+		catch (AldaayaException ex) {
+			BaseResponse res = new BaseResponse();
+			res.setStatus(3);
 			res.setComment(ex.getMessage());
 			return res;
 		}
@@ -102,6 +108,7 @@ public class AccountController extends BaseController {
 	public BaseResponse add(@RequestBody Account account) throws AldaayaException {
 		BaseResponse response = new BaseResponse();
 		try {
+			account.setAccountType(AccountType.ADMIN);
 			account = accountService.saveAccount(account);
 
 			handleSuccessResponse(response, null);
@@ -197,12 +204,26 @@ public class AccountController extends BaseController {
 
 		BaseResponse response = new BaseResponse();
 
-		List<Account> accounts = accountService.getAllAccounts();
+		List<Account> accounts = accountService.getAccounts(AccountType.NORMAL);
 		handleSuccessResponse(response, accounts);
 
 		return response;
 
 	}
+	
+	@RequestMapping(path = "/adminlist", method = RequestMethod.GET)
+	@JsonView(Views.Public.class)
+	public BaseResponse adminlist() throws AldaayaException {
+
+		BaseResponse response = new BaseResponse();
+
+		List<Account> accounts = accountService.getAccounts(AccountType.ADMIN);
+		handleSuccessResponse(response, accounts);
+
+		return response;
+
+	}
+	
 
 	@RequestMapping(path = "/search/{name}", method = RequestMethod.GET)
 	@JsonView(Views.Public.class)
@@ -210,7 +231,7 @@ public class AccountController extends BaseController {
 
 		BaseResponse response = new BaseResponse();
 
-		List<Account> accounts = accountService.findByUserName(name);
+		List<Account> accounts = accountService.findByUserName(name,AccountType.NORMAL,AldaayaConstants.ACTIVE);
 		handleSuccessResponse(response, accounts);
 
 		return response;
@@ -223,7 +244,7 @@ public class AccountController extends BaseController {
 
 		BaseResponse response = new BaseResponse();
 
-		List<Account> accounts = accountService.findByUserName(null);
+		List<Account> accounts = accountService.findByUserName(null,AccountType.NORMAL,AldaayaConstants.ACTIVE);
 		handleSuccessResponse(response, accounts);
 
 		return response;

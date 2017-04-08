@@ -28,8 +28,10 @@ public class Message extends BaseEntity {
 
 	private static final long serialVersionUID = 5105914722614237201L;
 
-	@Lob
 	@JsonView(Views.Public.class)
+	private String subject;
+	@Lob
+	@JsonView(Views.Details.class)
 	protected String msg;
 
 	@ManyToOne
@@ -115,4 +117,13 @@ public class Message extends BaseEntity {
 		this.newUserMessage = newUserMessage;
 	}
 
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	
 }

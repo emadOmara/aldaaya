@@ -6,6 +6,10 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import net.pd.aldaaya.integration.jackson.Views;
+
 @Entity
 public class Chapter extends BaseEntity {
 
@@ -15,13 +19,17 @@ public class Chapter extends BaseEntity {
 
 	private static final long serialVersionUID = 5105914722614237201L;
 
+	@JsonView(Views.Public.class)
 	@NotEmpty
 	private String name;
-
+	
+	@JsonView(Views.Details.class)
 	private String description;
 
+	@JsonView(Views.Public.class)
 	@Lob
 	private String image;
+	
 	@ManyToOne
 	private Lesson lesson;
 
