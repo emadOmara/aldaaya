@@ -111,7 +111,7 @@ public class AccountController extends BaseController {
 			account.setAccountType(AccountType.ADMIN);
 			account = accountService.saveAccount(account);
 
-			handleSuccessResponse(response, null);
+			handleSuccessResponse(response, account);
 		} catch (Exception e) {
 			if (e instanceof TransactionSystemException) {
 				response.setStatus(2);

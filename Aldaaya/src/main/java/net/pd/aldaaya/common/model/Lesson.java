@@ -10,6 +10,9 @@ import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import net.pd.aldaaya.integration.jackson.Views;
 
 @Entity
 public class Lesson extends BaseEntity {
@@ -20,6 +23,7 @@ public class Lesson extends BaseEntity {
 	private static final long serialVersionUID = 210029733341510077L;
 
 	@NotEmpty
+	@JsonView(Views.Public.class)
 	private String name;
 
 	private String description;
