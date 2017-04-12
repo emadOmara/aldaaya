@@ -99,6 +99,16 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
+	public List<Message> getAdminOutBox() throws AldaayaException {
+		try {
+			List<Message> messages = messageDao.findByToAdmin(false);
+			return messages;
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+
+	}
+	@Override
 	public List<Message> getOutBox(Long userID) throws AldaayaException {
 
 		try {

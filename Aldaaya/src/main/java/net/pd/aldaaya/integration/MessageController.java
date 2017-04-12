@@ -94,6 +94,18 @@ public class MessageController extends BaseController {
 		return response;
 
 	}
+	@GetMapping(path = "/admin/outbox")
+	@JsonView(Views.Public.class)
+	public BaseResponse getAdminOutbox() throws AldaayaException {
+
+		BaseResponse response = new BaseResponse();
+
+		List<Message> userMessages = messageService.getAdminOutBox();
+		handleSuccessResponse(response, userMessages);
+
+		return response;
+
+	}
 
 	@GetMapping(path = "/admin/inbox")
 	@JsonView(Views.Public.class)

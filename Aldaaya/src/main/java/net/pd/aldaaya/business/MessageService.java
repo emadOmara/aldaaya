@@ -29,4 +29,6 @@ public interface MessageService {
 
 	ContactUs readContactUsMessage(Long id)throws AldaayaException;
 
+	List<Message> getAdminOutBox()throws AldaayaException;
+
 }

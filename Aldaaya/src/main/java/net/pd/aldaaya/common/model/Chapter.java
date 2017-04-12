@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -25,6 +26,9 @@ public class Chapter extends BaseEntity {
 	
 	@JsonView(Views.Details.class)
 	private String description;
+	
+	@JsonView(Views.Public.class)
+	private String shortDesc;
 
 	@JsonView(Views.Public.class)
 	@Lob
@@ -64,5 +68,16 @@ public class Chapter extends BaseEntity {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+	public String getShortDesc() {
+		if(!StringUtils.isEmpty(description)&&description.length()>50){
+			return description.substring(0, 51);
+		}
+		return description;
+	}
+
+	 
+	
+	
 
 }

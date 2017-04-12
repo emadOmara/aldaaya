@@ -20,4 +20,6 @@ public interface MessageDao extends CrudRepository<Message, Long> {
 
 	List<Message> findByToAdminTrueOrderByCreationDateDesc();
 
+	List<Message> findByToAdmin(boolean b);
+
 }

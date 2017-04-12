@@ -54,6 +54,7 @@ public class ChapterController extends BaseController {
 	}
 
 	@RequestMapping(path = "/add", method = RequestMethod.POST)
+	@JsonView(Views.Public.class)
 	public BaseResponse addSection(@RequestBody Chapter chapter) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
