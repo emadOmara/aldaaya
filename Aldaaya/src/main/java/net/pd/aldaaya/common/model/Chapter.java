@@ -3,6 +3,7 @@ package net.pd.aldaaya.common.model;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -25,9 +26,11 @@ public class Chapter extends BaseEntity {
 	private String name;
 	
 	@JsonView(Views.Details.class)
+	@Lob
 	private String description;
 	
 	@JsonView(Views.Public.class)
+	@Transient
 	private String shortDesc;
 
 	@JsonView(Views.Public.class)
