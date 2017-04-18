@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import net.pd.aldaaya.integration.jackson.Views;
 
 public class MessageRequest extends BaseRequest {
 
@@ -18,6 +21,8 @@ public class MessageRequest extends BaseRequest {
 	protected String msg;
 	@NotNull
 	private Long sender;
+	
+	private String subject;
 
 	private List<Long> users;
 
@@ -44,5 +49,15 @@ public class MessageRequest extends BaseRequest {
 	public void setUsers(List<Long> users) {
 		this.users = users;
 	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	
+	
 
 }

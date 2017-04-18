@@ -69,6 +69,7 @@ public class MessageServiceImpl implements MessageService {
 
 		for (Long userId : userIds) {
 			Message message = new Message();
+			message.setSubject(request.getSubject());
 			message.setMsg(request.getMsg());
 
 			Account sender = new Account();
