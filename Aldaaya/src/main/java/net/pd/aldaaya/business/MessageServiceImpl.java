@@ -5,9 +5,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.pd.aldaaya.common.AldaayaConstants;
 import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.CommonUtil;
 import net.pd.aldaaya.common.model.Account;
@@ -26,6 +30,7 @@ public class MessageServiceImpl implements MessageService {
 	private MessageDao messageDao;
 	@Autowired
 	private ContactUsDao contactUsDao;
+	private final Pageable limit = new PageRequest(0, 1);;
 
 	/**
 	 * send user message to admin
@@ -109,6 +114,116 @@ public class MessageServiceImpl implements MessageService {
 		}
 
 	}
+
+	@Override
+	public void deleteMessage(Long id) throws AldaayaException {
+		try {
+			messageDao.delete(id);
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+
+	}
+	@Override
+	public Message deleteUserMessageAndGetNext(Long msgId,Long userId,int mode) throws AldaayaException {
+		
+		Message msg=null;
+		try {
+			messageDao.delete(msgId);
+			Page<Message> page=null;
+			switch (mode) {
+			case  AldaayaConstants.INBOX_TYPE: 
+				 page = messageDao.getNextInboxMessage(msgId,userId,limit);
+				break;
+			case  AldaayaConstants.OUTBOX_TYPE: 
+				page = messageDao.getNextOutBoxMessage(msgId,userId,limit);
+				break;
+
+			default:
+				break;
+			}
+			if (page != null) {
+				List<Message> list = page.getContent();
+				if(!CommonUtil.isEmpty(list)){
+					msg= list.get(0);
+					msg.setNewUserMessage(false);
+					messageDao.save(msg);
+				}
+			}  
+			return msg;
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+		
+		
+		 
+	}
+	@Override
+	public Message deleteAdminMessageAndGetNext(Long msgId,int mode) throws AldaayaException {
+		
+		Message msg=null;
+		try {
+			messageDao.delete(msgId);
+			Page<Message> page=null;
+			switch (mode) {
+			case  AldaayaConstants.INBOX_TYPE: 
+				page = messageDao.getAdminNextInboxMessage(msgId,limit);
+				break;
+			case  AldaayaConstants.OUTBOX_TYPE: 
+				page = messageDao.getAdminNextOutBoxMessage(msgId,limit);
+				break;
+				
+			default:
+				break;
+			}
+			if (page != null) {
+				List<Message> list = page.getContent();
+				if(!CommonUtil.isEmpty(list)){
+					msg= list.get(0);
+					msg.setNewAdminMessage(false);
+					messageDao.save(msg);
+				}
+			}  
+			return msg;
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+		
+		
+		
+	}
+
+	@Override
+	public void deleteContactUsMessage(Long id) throws AldaayaException {
+
+		try {
+			contactUsDao.delete(id);
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+	}
+
+	@Override
+	public ContactUs deleteContactUsMessageAndGetNext(Long id) throws AldaayaException {
+		ContactUs msg=null;
+		try {
+			contactUsDao.delete(id);
+			
+			Page<ContactUs> page = contactUsDao.getNext(id,limit);
+			if (page != null) {
+				List<ContactUs> list = page.getContent();
+				if(!CommonUtil.isEmpty(list)){
+					msg= list.get(0);
+					msg.setNewMessage(false);
+					contactUsDao.save(msg);
+				}
+			}  
+			return msg;
+		} catch (Exception e) {
+			throw new AldaayaException(e);
+		}
+	}
+
 	@Override
 	public List<Message> getOutBox(Long userID) throws AldaayaException {
 
@@ -165,30 +280,32 @@ public class MessageServiceImpl implements MessageService {
 	public ContactUs addContactUsMsg(ContactUs request) throws AldaayaException {
 		try {
 
-			  request = contactUsDao.save(request);
+			request = contactUsDao.save(request);
 			return request;
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}
-		
+
 	}
+
 	@Override
 	public List<ContactUs> getContactUsMessages() throws AldaayaException {
 		try {
 
-			   return (List<ContactUs>) contactUsDao.findAll();
+			return (List<ContactUs>) contactUsDao.findAll();
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}
 	}
+
 	@Override
 	public ContactUs readContactUsMessage(Long id) throws AldaayaException {
 		try {
 
-			       ContactUs msg = contactUsDao.findOne(id);
-			       msg.setNewMessage(false);
-			       contactUsDao.save(msg);
-			       return msg;
+			ContactUs msg = contactUsDao.findOne(id);
+			msg.setNewMessage(false);
+			contactUsDao.save(msg);
+			return msg;
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}

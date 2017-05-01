@@ -31,4 +31,14 @@ public interface MessageService {
 
 	List<Message> getAdminOutBox()throws AldaayaException;
 
+	void deleteMessage(Long id)throws AldaayaException;
+
+	void deleteContactUsMessage(Long id)throws AldaayaException;
+
+	ContactUs deleteContactUsMessageAndGetNext(Long id) throws AldaayaException;
+
+	Message deleteUserMessageAndGetNext(Long msgId, Long userId, int mode) throws AldaayaException;
+
+	Message deleteAdminMessageAndGetNext(Long msgId, int mode) throws AldaayaException;
+
 }

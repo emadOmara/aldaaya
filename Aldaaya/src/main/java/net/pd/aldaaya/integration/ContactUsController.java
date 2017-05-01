@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,6 +69,28 @@ public class ContactUsController extends BaseController {
 
 		return response;
 
+	}
+	@DeleteMapping(path = "/delete/{id}")
+	public BaseResponse delete(@PathVariable("id")Long id) throws AldaayaException {
+		
+		BaseResponse response = new BaseResponse();
+		handleNullID(id);
+		  messageService.deleteContactUsMessage(id);
+		handleSuccessResponse(response, null);
+		
+		return response;
+		
+	}
+	@DeleteMapping(path = "/deleteAndGetNext/{id}")
+	public BaseResponse deleteAndGetNext(@PathVariable("id")Long id) throws AldaayaException {
+		
+		BaseResponse response = new BaseResponse();
+		handleNullID(id);
+		messageService.deleteContactUsMessageAndGetNext(id);
+		handleSuccessResponse(response, null);
+		
+		return response;
+		
 	}
 
 

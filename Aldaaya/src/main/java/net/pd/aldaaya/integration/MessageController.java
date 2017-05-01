@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.pd.aldaaya.business.MessageService;
+import net.pd.aldaaya.common.AldaayaConstants;
 import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.model.Account;
 import net.pd.aldaaya.common.model.Message;
@@ -43,6 +45,7 @@ public class MessageController extends BaseController {
 		Message msg = new Message();
 
 		msg.setMsg(request.getMsg());
+		msg.setSubject(request.getSubject());
 
 		Account acc = new Account();
 		acc.setId(request.getSender());
@@ -148,5 +151,42 @@ public class MessageController extends BaseController {
 		return response;
 
 	}
+	@DeleteMapping(path = "/delete/{id}")
+	public BaseResponse  deleteMessage(@PathVariable("id") Long messageID) throws AldaayaException {
+		
+		BaseResponse response = new BaseResponse();
+		handleNullID(messageID);
+		
+		 messageService.deleteMessage(messageID);
+		handleSuccessResponse(response, null);
+		
+		return response;
+		
+	}
+	@DeleteMapping(path = "/user/deleteAndGetNext/{msgId}/{userId}/{mode}")
+	public BaseResponse  deleteMessageAndGetNext(@PathVariable("msgId") Long messageID,@PathVariable("userId") Long userId,@PathVariable("mode") Integer mode) throws AldaayaException {
+		
+		BaseResponse response = new BaseResponse();
+		handleNullID(messageID);
+		
+		Message msg=messageService.deleteUserMessageAndGetNext(messageID, userId, mode);
+		handleSuccessResponse(response, msg);
+		
+		return response;
+		
+	}
+	@DeleteMapping(path = "/admin/deleteAndGetNext/{msgId}/{mode}")
+	public BaseResponse  deleteAdminMessageAndGetNext(@PathVariable("msgId") Long messageID,@PathVariable("mode") Integer mode) throws AldaayaException {
+		
+		BaseResponse response = new BaseResponse();
+		handleNullID(messageID);
+		
+		Message msg=messageService.deleteAdminMessageAndGetNext(messageID, mode);
+		handleSuccessResponse(response, msg);
+		
+		return response;
+		
+	}
+	 
 
 }

@@ -22,4 +22,6 @@ public interface AldaayaConstants {
 
 	String EMAIL_SUBJECT_FORGET_PASSWORD = "نسيان كلمة المرور";
 	String EMAIL_BODY_FORGET_PASSWORD = "تم اعادة تعيين لكلمة المرور الخاصة بكم لتصبح : ";
+	int INBOX_TYPE = 2;
+	 int OUTBOX_TYPE = 3;
 }
