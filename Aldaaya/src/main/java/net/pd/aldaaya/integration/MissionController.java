@@ -15,29 +15,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.pd.aldaaya.business.MessageService;
+import net.pd.aldaaya.business.MissionService;
 import net.pd.aldaaya.common.AldaayaException;
 import net.pd.aldaaya.common.model.Account;
-import net.pd.aldaaya.common.model.ContactUs;
+import net.pd.aldaaya.common.model.Mission;
 import net.pd.aldaaya.common.model.Message;
 import net.pd.aldaaya.integration.jackson.Views;
 import net.pd.aldaaya.integration.request.MessageRequest;
 import net.pd.aldaaya.integration.response.BaseResponse;
 
 @RestController()
-@RequestMapping(path = "api/contactus")
-public class ContactUsController extends BaseController {
+@RequestMapping(path = "api/mission")
+public class MissionController extends BaseController {
 
 	@Autowired
-	private MessageService messageService;
+	private MissionService missionService;
 
 	 
 	@RequestMapping(path = "/add", method = RequestMethod.POST)
-	public BaseResponse add( @RequestBody ContactUs request) throws AldaayaException {
+	public BaseResponse add( @RequestBody Mission request) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
- 
 
-		request=messageService.addContactUsMsg(request); 
+		request=missionService.save(request); 
 		handleSuccessResponse(response, request);
 
 		return response;
@@ -46,12 +46,11 @@ public class ContactUsController extends BaseController {
  
 
 	@GetMapping(path = "/list")
-	@JsonView(Views.Public.class)
 	public BaseResponse list() throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
 
-		List<ContactUs> messages = messageService.getContactUsMessages();
+		List<Mission> messages = missionService.list();
 		handleSuccessResponse(response, messages);
 
 		return response;
@@ -60,11 +59,11 @@ public class ContactUsController extends BaseController {
 	
 	@GetMapping(path = "/get/{id}")
 	@JsonView(Views.Public.class)
-	public BaseResponse list(@PathVariable("id")Long id) throws AldaayaException {
+	public BaseResponse read(@PathVariable("id")Long id) throws AldaayaException {
 
 		BaseResponse response = new BaseResponse();
 		handleNullID(id);
-	   ContactUs msg = messageService.readContactUsMessage(id);
+	   Mission msg = missionService.read(id);
 		handleSuccessResponse(response, msg);
 
 		return response;
@@ -75,7 +74,7 @@ public class ContactUsController extends BaseController {
 		
 		BaseResponse response = new BaseResponse();
 		handleNullID(id);
-		  messageService.deleteContactUsMessage(id);
+		  missionService.delete(id);
 		handleSuccessResponse(response, null);
 		
 		return response;
@@ -86,7 +85,7 @@ public class ContactUsController extends BaseController {
 		
 		BaseResponse response = new BaseResponse();
 		handleNullID(id);
-		ContactUs msg= messageService.deleteContactUsMessageAndGetNext(id);
+		Mission msg=missionService.deleteAndGetNext(id);
 		handleSuccessResponse(response, msg);
 		
 		return response;
