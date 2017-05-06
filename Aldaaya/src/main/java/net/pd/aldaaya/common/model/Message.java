@@ -53,6 +53,8 @@ public class Message extends BaseEntity {
 	@JsonView(Views.Public.class)
 	private boolean newUserMessage = false;
 
+	private int deleteStatus;
+	
 	public Account getSender() {
 		return sender;
 	}
@@ -123,6 +125,14 @@ public class Message extends BaseEntity {
 
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+
+	public int getDeleteStatus() {
+		return deleteStatus;
+	}
+
+	public void setDeleteStatus(int deleteStatus) {
+		this.deleteStatus = deleteStatus;
 	}
 
 	

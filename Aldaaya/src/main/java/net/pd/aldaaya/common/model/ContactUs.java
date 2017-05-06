@@ -53,6 +53,7 @@ public class ContactUs extends BaseEntity {
 	private boolean newMessage = true;
  
   
+	
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -109,6 +110,6 @@ public class ContactUs extends BaseEntity {
 	public void setNewMessage(boolean newMessage) {
 		this.newMessage = newMessage;
 	}
- 
+
 	
 }

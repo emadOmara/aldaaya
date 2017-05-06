@@ -116,9 +116,17 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void deleteMessage(Long id) throws AldaayaException {
+	public void deleteMessage(Long id,int mode) throws AldaayaException {
 		try {
-			messageDao.delete(id);
+			Message msg=messageDao.findOne(id);
+			if(CommonUtil.isEmpty(msg)){
+				throw new AldaayaException("No message found for specified id");
+			}
+			if(mode!=AldaayaConstants.INBOX_TYPE &&mode!=AldaayaConstants.OUTBOX_TYPE){
+				throw new AldaayaException("Invalide mode");
+			}
+			msg.setDeleteStatus(mode);
+			messageDao.save(msg);
 		} catch (Exception e) {
 			throw new AldaayaException(e);
 		}
@@ -129,7 +137,8 @@ public class MessageServiceImpl implements MessageService {
 		
 		Message msg=null;
 		try {
-			messageDao.delete(msgId);
+			deleteMessage(msgId, mode);
+			
 			Page<Message> page=null;
 			switch (mode) {
 			case  AldaayaConstants.INBOX_TYPE: 
@@ -163,7 +172,8 @@ public class MessageServiceImpl implements MessageService {
 		
 		Message msg=null;
 		try {
-			messageDao.delete(msgId);
+			deleteMessage(msgId, mode);
+			
 			Page<Message> page=null;
 			switch (mode) {
 			case  AldaayaConstants.INBOX_TYPE: 

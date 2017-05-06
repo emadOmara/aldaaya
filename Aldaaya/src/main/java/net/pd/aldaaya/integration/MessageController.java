@@ -151,13 +151,13 @@ public class MessageController extends BaseController {
 		return response;
 
 	}
-	@DeleteMapping(path = "/delete/{id}")
-	public BaseResponse  deleteMessage(@PathVariable("id") Long messageID) throws AldaayaException {
+	@DeleteMapping(path = "/delete/{id}/{mode}")
+	public BaseResponse  deleteMessage(@PathVariable("id") Long messageID,@PathVariable("mode") Integer mode) throws AldaayaException {
 		
 		BaseResponse response = new BaseResponse();
 		handleNullID(messageID);
-		
-		 messageService.deleteMessage(messageID);
+		 
+		 messageService.deleteMessage(messageID,mode);
 		handleSuccessResponse(response, null);
 		
 		return response;
